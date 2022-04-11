@@ -24,30 +24,26 @@
 # DBus session). If instance is empty, playerctl will connect to the first
 # supported media player it finds.
 
-use Time::HiRes qw(usleep);
-use Env qw(BLOCK_INSTANCE);
-
-use constant DELAY => 50; # Delay in ms to let network-based players (spotify) reflect new data.
-
+my $player_arg = "playerctl -p ncspot";
 my @metadata = ();
 
 sub playerctl {
-    my $status = qx(playerctl -p ncspot status 2>/dev/null);
+    my $status = qx($player_arg status 2>/dev/null);
     chomp $status;
     if ($status ne "Playing") {
         return
     }
 
-    my $artist = qx(playerctl -p ncspot metadata artist 2>/dev/null);
+    my $artist = qx($player_arg metadata artist 2>/dev/null);
     chomp $artist;
     # exit status will be nonzero when playerctl cannot find your player
     exit(0) if $? || $artist eq '(null)';
 
-    $artist =~ s/&/and/ig;
+    #$artist =~ s/&/and/ig;
 
     push(@metadata, $artist) if $artist;
 
-    my $title = qx(playerctl -p ncspot metadata title);
+    my $title = qx($player_arg metadata title);
     exit(0) if $? || $title eq '(null)';
     $title =~ s/&/and/ig;
 
