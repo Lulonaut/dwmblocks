@@ -1,6 +1,6 @@
 #!/bin/sh
 
 
-PLAYER="spotify"
+PLAYER="ncspot"
 
 echo "$(playerctl -p $PLAYER metadata artist) - $(playerctl -p $PLAYER metadata title)"
