@@ -1,8 +1,0 @@
-#!/bin/sh
-
-
-PLAYER="ncspot"
-
-[[ $(playerctl -p $PLAYER status) == "Playing" ]] || exit
-
-echo "$(playerctl -p $PLAYER metadata artist) - $(playerctl -p $PLAYER metadata title)"
